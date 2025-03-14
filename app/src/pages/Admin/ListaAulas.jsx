@@ -1,36 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'universal-cookie';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
-import Button from '@mui/material/Button';
-import { Icon } from '@mui/material';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TextField, MenuItem, Select, InputLabel, FormControl, Button, Typography, Icon } from '@mui/material';
 import ContactsIcon from '@mui/icons-material/Contacts';
 import GroupsIcon from '@mui/icons-material/Groups';
-import WarningIcon from '@mui/icons-material/Warning';
 import ArticleIcon from '@mui/icons-material/Article';
-import Typography from '@mui/material/Typography';
-import './static/CasosTable.css';
 import { Link } from 'react-router-dom';
+import './static/CasosTable.css';
 
 const columns = [
     { id: 'aluno', label: 'EXERCÍCIO', minWidth: 100, Icon: ContactsIcon },
     { id: 'prazo', label: 'PRAZO', minWidth: 100, Icon: GroupsIcon },
     { id: 'actions', label: 'EDITAR', minWidth: 170, Icon: ArticleIcon }
 ];
-
-const urgencyOrder = { 'BAIXA': 1, 'MEDIA': 2, 'ALTA': 3, 'NAO INFORMADO': 0 };
 
 function CasosTable() {
     const [casos, setCasos] = useState([
@@ -46,11 +27,6 @@ function CasosTable() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Aqui você pode fazer o fetch para pegar os dados da API se necessário.
-        // Estou usando dados mockados para demonstrar.
-    }, []);
-
-    useEffect(() => {
         const results = casos.filter(caso =>
             caso.aluno.nome.toLowerCase().includes(searchTerm.toLowerCase())
         );
@@ -64,125 +40,76 @@ function CasosTable() {
         setFilteredCasos(results);
     }, [searchTerm, sortOption, casos]);
 
-    const handleSearchChange = (event) => {
-        setSearchTerm(event.target.value);
-    };
-
-    const handleSortChange = (event) => {
-        setSortOption(event.target.value);
-    };
-
-    const handleViewClick = (id) => {
-        navigate(`/aula/${id}`);
-    };
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-    };
-
     return (
-        <div>
-            <div className='title' style={{ display: "flex", justifyContent: "space-between" , paddingTop:"2%"}}>
-                <Typography 
-                    variant="h4" 
-                    component="h4" 
-                    style={{ 
-                        
-                        textAlign: 'center', 
-                        fontFamily: 'Roboto, sans-serif', 
-                        fontWeight: 'bold', 
-                        textTransform: 'uppercase', 
-                        paddingLeft: "5%"
-                    }}
-                >
-                    Controle de Aulas
-                </Typography>
-                <div className="filter-container" style={{paddingRight: "4%"}}>
-                    <div className="filter-box">
-                        <TextField
-                            label="Busque Pelo Nome"
-                            variant="outlined"
-                            size="small"
-                            value={searchTerm}
-                            onChange={handleSearchChange}
-                            className="compact-input"
-                        />
-                        <FormControl variant="outlined" size="small" className="compact-input">
-                            <InputLabel>Ordenar Por</InputLabel>
-                            <Select
-                                value={sortOption}
-                                onChange={handleSortChange}
-                                label="Ordenar Por"
-                            >
-                                <MenuItem value=""><em>Nada</em></MenuItem>
-                                <MenuItem value="nameAsc">Nome (A-Z)</MenuItem>
-                                <MenuItem value="nameDesc">Nome (Z-A)</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </div>
-                </div>
+        <div style={{backgroundColor: "#FAF7F7",  minHeight: '100vh'}}>
+        <div style={{ padding: '2%', maxWidth: '90%', margin: 'auto',  }}>
+            <Typography variant="h4" style={{ fontWeight: 'bold', textAlign: 'center', marginBottom: '20px', color: '#B9171C' }}>
+                Controle de Aulas
+            </Typography>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+                <TextField
+                    label="Buscar pelo Nome"
+                    variant="outlined"
+                    size="small"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    style={{ width: '40%', backgroundColor: '#fff', borderRadius: '5px' }}
+                />
+                <FormControl variant="outlined" size="small" style={{ width: '20%', backgroundColor: '#fff', borderRadius: '5px' }}>
+                    <InputLabel>Ordenar Por</InputLabel>
+                    <Select value={sortOption} onChange={(e) => setSortOption(e.target.value)}>
+                        <MenuItem value=""><em>Nada</em></MenuItem>
+                        <MenuItem value="nameAsc">Nome (A-Z)</MenuItem>
+                        <MenuItem value="nameDesc">Nome (Z-A)</MenuItem>
+                    </Select>
+                </FormControl>
             </div>
-
-            <Paper className="table-container">
-                <TableContainer sx={{ maxHeight: 440 }}>
-                    <Table stickyHeader aria-label="sticky table">
+            <Paper elevation={3} style={{ borderRadius: '10px', overflow: 'hidden' }}>
+                <TableContainer>
+                    <Table>
                         <TableHead>
-                            <TableRow className="table-header">
+                            <TableRow style={{ backgroundColor: '#B9171C' }}>
                                 {columns.map((column) => (
-                                    <TableCell
-                                        key={column.id}
-                                        align="center"
-                                        style={{ minWidth: column.minWidth, backgroundColor: '#f0f0f0', fontWeight: 'bold' }}
-                                        className="header-cell"
-                                    >
-                                        <div className="icon-label" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                            <div className='icon' style={{ paddingRight: "3px" }}>
-                                                {column.Icon && <Icon component={column.Icon} sx={{ fontSize: 18 }} />}
-                                            </div>
-                                            <div>{column.label}</div>
+                                    <TableCell key={column.id} align="center" style={{ fontWeight: 'bold', color: '#DCDCDC' }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                            {column.Icon && <Icon component={column.Icon} style={{ marginRight: 5, color: '#DCDCDC' }} />}
+                                            {column.label}
                                         </div>
                                     </TableCell>
                                 ))}
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {filteredCasos
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((caso, index) => (
-                                    <TableRow hover role="checkbox" tabIndex={-1} key={caso._id}>
-                                        {columns.map((column) => {
-                                            let value;
-                                            if (column.id === 'actions') {
-                                                value = (
-                                                    <Button
-                                                        variant="contained"
-                                                        color="primary"
-                                                        onClick={() => handleViewClick(caso._id)}
-                                                        style={{backgroundColor:"#B9171C"}}
-                                                    >
-                                                        Editar
-                                                    </Button>
-                                                );
-                                            } else {
-                                                // Aqui, você precisa acessar o nome de aluno, que é `caso.aluno.nome`
-                                                value = column.id === 'aluno' ? caso.aluno.nome : caso[column.id];
-                                            }
-
-                                            return (
-                                                <TableCell key={column.id} align="center">
-                                                    {value}
-                                                </TableCell>
-                                            );
-                                        })}
-                                    </TableRow>
-                                ))}
+                            {filteredCasos.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((caso) => (
+                                <TableRow hover key={caso._id} style={{ transition: 'background-color 0.3s' }}>
+                                    {columns.map((column) => (
+                                        <TableCell 
+                                        key={column.id} 
+                                        align="center" 
+                                        style={{ 
+                                            padding: '15px',
+                                            fontFamily: 'Tahoma, sans-serif', // Define a família da fonte
+                                            fontSize: '16px', // Define o tamanho da fonte
+                                            fontWeight: '500', // Define o peso da fonte
+                                            color: '#000', // Define a cor do texto
+                                        }}
+                                        >
+                                            {column.id === 'actions' ? (
+                                                <Button
+                                                    variant="contained"
+                                                    style={{ backgroundColor: "#B9171C", color: "#fff", borderRadius: '5px', padding: '8px 20px', transition: 'background-color 0.3s' }}
+                                                    onClick={() => navigate(`/aula/${caso._id}`)}
+                                                >
+                                                    Editar
+                                                </Button>
+                                            ) : (
+                                                column.id === 'aluno' ? caso.aluno.nome : caso[column.id]
+                                            )}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))}
                         </TableBody>
-
                     </Table>
                 </TableContainer>
                 <TablePagination
@@ -191,17 +118,23 @@ function CasosTable() {
                     count={filteredCasos.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    onPageChange={(event, newPage) => setPage(newPage)}
+                    onRowsPerPageChange={(event) => {
+                        setRowsPerPage(parseInt(event.target.value, 10));
+                        setPage(0);
+                    }}
+                    style={{ backgroundColor: '#f5f5f5' }}
                 />
             </Paper>
-
-            <div className='button-container' style={{  display: 'flex', justifyContent: 'center',alignItems: 'center', paddingTop:"3vh"}}>
-            <Link to='/aula/criar' className='create-user'>
-                <Button variant="contained" disableElevation style={{ backgroundColor: '#B9171C'}}>Criar nova aula</Button>
-            </Link>
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                <Link to='/aula/criar' style={{ textDecoration: 'none' }}>
+                    <Button variant="contained" style={{ backgroundColor: '#B9171C', color: 'white', borderRadius: '5px', padding: '10px 30px', transition: 'background-color 0.3s' }}>
+                        Criar Nova Aula
+                    </Button>
+                </Link>
             </div>
         </div>
+    </div>
     );
 }
 

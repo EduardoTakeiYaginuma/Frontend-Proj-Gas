@@ -1,29 +1,16 @@
 import React, { useState } from 'react';
 import Cookies from 'universal-cookie';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import Button from '@mui/material/Button';
+import { 
+  Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, 
+  TableRow, Button, Typography, TextField, MenuItem, Select, InputLabel, FormControl, Box 
+} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import EmailIcon from '@mui/icons-material/Email';
 import BadgeIcon from '@mui/icons-material/Badge';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
-import Box from '@mui/material/Box';
 import HeaderAdmin from './HeaderAdmin';
-import './static/CasosTable.css';
 import { Link } from 'react-router-dom';
-
+import './static/CasosTable.css';
 
 const columns = [
   { id: 'email', label: 'EMAIL', minWidth: 100, Icon: EmailIcon },
@@ -79,108 +66,100 @@ function UserControl() {
   }, [searchTerm, sortOption, users]);
 
   return (
+    <div style={{backgroundColor: "#FAF7F7", minHeight: '100vh'}}>
     <div>
       <HeaderAdmin />
-      <div className='title' style={{ display: "flex", justifyContent: "space-between", paddingTop:"2%" }}>
-      <Typography 
-        variant="h4" 
-        component="h4" 
-        style={{ 
-          paddingLeft:"5%",
-          paddingBottom:"1vh",
-          fontFamily: 'Roboto, sans-serif', 
-          fontWeight: 'bold', 
-          textTransform: 'uppercase',
-        }}
-      >
-        Controle de Usuários
-      </Typography>
-      <div className="filter-container" style={{paddingRight: "4%"}}>
-        <div className="filter-box">
+      <div style={{ padding: '2%', maxWidth: '90%', margin: 'auto' }}>
+        <Typography variant="h4" style={{ fontWeight: 'bold', textAlign: 'center', marginBottom: '20px', color: '#B9171C' }}>
+          Controle de Usuários
+        </Typography>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
           <TextField
-            label="Busque Pelo Nome"
+            label="Buscar pelo Nome"
             variant="outlined"
             size="small"
             value={searchTerm}
             onChange={handleSearchChange}
-            className="compact-input"
+            style={{ width: '40%', backgroundColor: '#fff', borderRadius: '5px' }}
           />
-          <FormControl variant="outlined" size="small" className="compact-input">
+          <FormControl variant="outlined" size="small" style={{ width: '20%', backgroundColor: '#fff', borderRadius: '5px' }}>
             <InputLabel>Ordenar Por</InputLabel>
-            <Select
-              value={sortOption}
-              onChange={handleSortChange}
-              label="Ordenar Por"
-            >
+            <Select value={sortOption} onChange={handleSortChange}>
               <MenuItem value=""><em>Nada</em></MenuItem>
               <MenuItem value="nameAsc">Nome (A-Z)</MenuItem>
               <MenuItem value="nameDesc">Nome (Z-A)</MenuItem>
             </Select>
           </FormControl>
         </div>
-      </div>
-    </div>
-      <Paper className="table-container">
-        <TableContainer sx={{ maxHeight: 400 }}>
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align="center"
-                    style={{ minWidth: column.minWidth, backgroundColor: '#f0f0f0', fontWeight: 'bold' }}
-                  >
-                    <div className="icon-label" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      {column.Icon && <column.Icon sx={{ fontSize: 18, marginRight: 1 }} />}
-                      {column.label}
-                    </div>
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+        <Paper elevation={3} style={{ borderRadius: '10px', overflow: 'hidden' }}>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow style={{ backgroundColor: '#B9171C' }}>
                   {columns.map((column) => (
-                    <TableCell key={column.id} align="center">
-                      {column.id === 'delete' ? (
-                        <Button 
-                          variant="contained" 
-                          color="error" 
-                          startIcon={<DeleteIcon />} 
-                          onClick={() => handleDelete(row.id)}
-                        >
-                          Deletar
-                        </Button>
-                      ) : row[column.id]}
+                    <TableCell key={column.id} align="center" style={{ fontWeight: 'bold', color: '#DCDCDC' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        {column.Icon && <column.Icon style={{ marginRight: 5, color: '#DCDCDC' }} />}
+                        {column.label}
+                      </div>
                     </TableCell>
                   ))}
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={filteredUsers.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={(event, newPage) => setPage(newPage)}
-          onRowsPerPageChange={event => {
-            setRowsPerPage(+event.target.value);
-            setPage(0);
-          }}
-        />
-      </Paper>
-
-      <div className='button-container' style={{  display: 'flex', justifyContent: 'center',alignItems: 'center', paddingTop:"3vh"}}>
-        <Link to='/usuarios/criar' className='create-user'>
-          <Button variant="contained" disableElevation style={{ backgroundColor: '#B9171C'}}>Criar novo aluno</Button>
-        </Link>
+              </TableHead>
+              <TableBody>
+                {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+                  <TableRow hover key={row.id} style={{ transition: 'background-color 0.3s' }}>
+                    {columns.map((column) => (
+                      <TableCell key={column.id} align="center" 
+                      style={{ 
+                        padding: '15px',
+                        fontFamily: 'Tahoma, sans-serif', // Define a família da fonte
+                        fontSize: '16px', // Define o tamanho da fonte
+                        fontWeight: '500', // Define o peso da fonte
+                        color: '#000', // Define a cor do texto
+                    }}
+                      >
+                        {column.id === 'delete' ? (
+                          <Button
+                            variant="contained"
+                            color="error"
+                            startIcon={<DeleteIcon />}
+                            onClick={() => handleDelete(row.id)}
+                            style={{ borderRadius: '5px', padding: '8px 20px', transition: 'background-color 0.3s' }}
+                          >
+                            Deletar
+                          </Button>
+                        ) : row[column.id]}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={filteredUsers.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={(event, newPage) => setPage(newPage)}
+            onRowsPerPageChange={(event) => {
+              setRowsPerPage(parseInt(event.target.value, 10));
+              setPage(0);
+            }}
+            style={{ backgroundColor: '#f5f5f5' }}
+          />
+        </Paper>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+          <Link to='/usuarios/criar' style={{ textDecoration: 'none' }}>
+            <Button variant="contained" style={{ backgroundColor: '#B9171C', color: 'white', borderRadius: '5px', padding: '10px 30px', transition: 'background-color 0.3s' }}>
+              Criar Novo Usuário
+            </Button>
+          </Link>
+        </div>
       </div>
-      
+    </div>
     </div>
   );
 }
