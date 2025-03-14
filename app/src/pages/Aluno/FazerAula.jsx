@@ -42,6 +42,7 @@ function FazerAula() {
         }
     };
 
+
     return (
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100vw', height: '100vh'}}>
             <div className='container' style={{ display: "flex", paddingTop:"0%", width: '80%', height: '80%', flexDirection: 'column', borderRadius: '10px', alignItems: 'start', backgroundColor: '#ebebeb'}}>
@@ -93,6 +94,10 @@ function FazerAula() {
                         </Typography>
                     )}
 
+                <div style={{paddingTop: '15%'}}>
+                    <a href={'/fazer/aula/' + (parseInt(id, 10) - 1)} style={{margin: '5px', backgroundColor: 'red', textDecoration: 'none', fontWeight: '800', padding: '10px', borderRadius: '50px', color: 'white'}}>←</a>
+                    <a href={'/fazer/aula/' + (parseInt(id, 10) + 1)} style={{margin: '5px', backgroundColor: 'red', textDecoration: 'none', fontWeight: '800', padding: '10px', borderRadius: '50px', color: 'white'}}>→</a>
+                </div>
                 </div>
             </div>
         </div>
