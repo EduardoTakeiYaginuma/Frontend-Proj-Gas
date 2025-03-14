@@ -55,14 +55,14 @@ export default function Login() {
           <Grid item xs={5} style={{ textAlign: 'center' }}>
             <img src={logo} alt="Logo" style={{ width: 350, height: 150 }} />
             
-            <Typography variant="h6" component="h6" style={{ textAlign: 'justify', paddingLeft: "10%" }}>
-              O Grupo de Ação Social é uma entidade estudantil comfoco em desenvolver, apoiar e executar projetos de âmbito social de forma a gerar conscientização, incentivos, comportamentos e atitudes que promovam a transformação social na comunidade
+            <Typography variant="h6" component="h6" style={{ textAlign: 'justify', padding: '0 10%', marginTop: '20px' }}>
+              O Grupo de Ação Social é uma entidade estudantil com foco em desenvolver, apoiar e executar projetos de âmbito social de forma a gerar conscientização, incentivos, comportamentos e atitudes que promovam a transformação social na comunidade.
             </Typography>
           </Grid>
           <Grid item xs={2} style={{ textAlign: 'center' }}>
             <Box className="box-divider"></Box>
           </Grid>
-          <Grid item xs={5} style={{ alignItems: "center", justifyContent: "center", paddingRight: '90px', marginTop: '20px', paddingTop: '15vh' }}>
+          <Grid item xs={5} style={{ alignItems: "center", justifyContent: "center", paddingRight: '90px', marginTop: '20px', paddingTop: 'vh' }}>
             <Container>
               <div className='login-wrapper'>
                 <div className='login-text'>
