@@ -70,7 +70,7 @@ function UserControl() {
     <div>
       <HeaderAdmin />
       <div style={{ padding: '2%', maxWidth: '90%', margin: 'auto' }}>
-        <Typography variant="h4" style={{ fontWeight: 'bold', textAlign: 'center', marginBottom: '20px', color: '#B9171C' }}>
+        <Typography variant="h4" style={{ fontWeight: 'bold', textAlign: 'center', marginBottom: '20px', color: '#B9171C', textTransform: 'uppercase' }}>
           Controle de Usuários
         </Typography>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>

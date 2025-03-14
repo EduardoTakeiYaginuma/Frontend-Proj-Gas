@@ -13,13 +13,13 @@ const columns = [
     { id: 'actions', label: 'EDITAR', minWidth: 170, Icon: ArticleIcon }
 ];
 
-function CasosTable() {
-    const [casos, setCasos] = useState([
+function AulasTable() {
+    const [aulas, setAulas] = useState([  // Dados fake mantidos
         { _id: '1', aluno: { nome: 'Exercício 1' }, prazo: '20/03/2025' },
         { _id: '2', aluno: { nome: 'Exercício 2' }, prazo: '25/03/2025' },
         { _id: '3', aluno: { nome: 'Exercício 3' }, prazo: '30/03/2025' },
     ]);
-    const [filteredCasos, setFilteredCasos] = useState(casos);
+    const [filteredAulas, setFilteredAulas] = useState(aulas);
     const [searchTerm, setSearchTerm] = useState("");
     const [sortOption, setSortOption] = useState("");
     const [page, setPage] = useState(0);
@@ -27,8 +27,8 @@ function CasosTable() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const results = casos.filter(caso =>
-            caso.aluno.nome.toLowerCase().includes(searchTerm.toLowerCase())
+        const results = aulas.filter(aula =>
+            aula.aluno.nome.toLowerCase().includes(searchTerm.toLowerCase())
         );
 
         if (sortOption === "nameAsc") {
@@ -37,13 +37,13 @@ function CasosTable() {
             results.sort((a, b) => b.aluno.nome.localeCompare(a.aluno.nome));
         }
 
-        setFilteredCasos(results);
-    }, [searchTerm, sortOption, casos]);
+        setFilteredAulas(results);
+    }, [searchTerm, sortOption, aulas]);
 
     return (
         <div style={{backgroundColor: "#FAF7F7",  minHeight: '100vh'}}>
-        <div style={{ padding: '2%', maxWidth: '90%', margin: 'auto',  }}>
-            <Typography variant="h4" style={{ fontWeight: 'bold', textAlign: 'center', marginBottom: '20px', color: '#B9171C' }}>
+        <div style={{ padding: '2%', maxWidth: '90%', margin: 'auto' }}>
+            <Typography variant="h4" style={{ fontWeight: 'bold',textTransform: 'uppercase', textAlign: 'center', marginBottom: '20px', color: '#B9171C' }} component='h1'>
                 Controle de Aulas
             </Typography>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
@@ -80,30 +80,30 @@ function CasosTable() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {filteredCasos.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((caso) => (
-                                <TableRow hover key={caso._id} style={{ transition: 'background-color 0.3s' }}>
+                            {filteredAulas.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((aula) => (
+                                <TableRow hover key={aula._id} style={{ transition: 'background-color 0.3s' }}>
                                     {columns.map((column) => (
                                         <TableCell 
                                         key={column.id} 
                                         align="center" 
                                         style={{ 
                                             padding: '15px',
-                                            fontFamily: 'Tahoma, sans-serif', // Define a família da fonte
-                                            fontSize: '16px', // Define o tamanho da fonte
-                                            fontWeight: '500', // Define o peso da fonte
-                                            color: '#000', // Define a cor do texto
+                                            fontFamily: 'Tahoma, sans-serif',
+                                            fontSize: '16px',
+                                            fontWeight: '500',
+                                            color: '#000',
                                         }}
                                         >
                                             {column.id === 'actions' ? (
                                                 <Button
                                                     variant="contained"
                                                     style={{ backgroundColor: "#B9171C", color: "#fff", borderRadius: '5px', padding: '8px 20px', transition: 'background-color 0.3s' }}
-                                                    onClick={() => navigate(`/aula/${caso._id}`)}
+                                                    onClick={() => navigate(`/aula/${aula._id}`)}
                                                 >
                                                     Editar
                                                 </Button>
                                             ) : (
-                                                column.id === 'aluno' ? caso.aluno.nome : caso[column.id]
+                                                column.id === 'aluno' ? aula.aluno.nome : aula[column.id]
                                             )}
                                         </TableCell>
                                     ))}
@@ -115,7 +115,7 @@ function CasosTable() {
                 <TablePagination
                     rowsPerPageOptions={[10, 25, 100]}
                     component="div"
-                    count={filteredCasos.length}
+                    count={filteredAulas.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={(event, newPage) => setPage(newPage)}
@@ -138,4 +138,4 @@ function CasosTable() {
     );
 }
 
-export default CasosTable;
+export default AulasTable;
