@@ -46,7 +46,7 @@ function FazerAula() {
     return (
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100vw', height: '100vh'}}>
             <div className='container' style={{ display: "flex", paddingTop:"0%", width: '80%', height: '80%', flexDirection: 'column', borderRadius: '10px', alignItems: 'start', backgroundColor: '#ebebeb'}}>
-                <div style={{width: '100%', backgroundColor: 'red', paddingBottom: '2%', paddingTop: '2%', borderRadius: '10px'}}>
+                <div style={{width: '100%', backgroundColor: '#B9171C', paddingBottom: '2%', paddingTop: '2%'}}>
                     <Typography 
                         variant="h4" 
                         component="h4" 
