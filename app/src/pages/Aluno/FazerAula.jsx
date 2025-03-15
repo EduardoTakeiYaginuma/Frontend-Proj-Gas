@@ -45,8 +45,8 @@ function FazerAula() {
 
     return (
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100vw', height: '100vh'}}>
-            <div className='container' style={{ display: "flex", paddingTop:"0%", width: '80%', height: '80%', flexDirection: 'column', borderRadius: '10px', alignItems: 'start', backgroundColor: '#ebebeb'}}>
-                <div style={{width: '100%', backgroundColor: '#B9171C', paddingBottom: '2%', paddingTop: '2%'}}>
+            <div className='container' style={{ display: "flex", paddingTop:"0%", width: '80vw', height: '80vh', flexDirection: 'column', alignItems: 'start', boxShadow: '2px 5px 5px  grey', borderRadius: '10px'}}>
+                <div style={{width: '100%', backgroundColor: '#B9171C', paddingBottom: '2%', paddingTop: '2%', borderRadius: '10px 10px 0px 0px'}}>
                     <Typography 
                         variant="h4" 
                         component="h4" 
@@ -57,6 +57,7 @@ function FazerAula() {
                             fontFamily: 'Roboto, sans-serif', 
                             fontWeight: 'bold', 
                             textTransform: 'uppercase',
+                            color: '#dcdcdc'
                         }}
                     >
                         Exercicio {id}
@@ -72,17 +73,20 @@ function FazerAula() {
                     {id}) {enunciado.enunciado}
                 </Typography>
                 
-                <div className='botoes' style={{display: 'flex', flexDirection: 'column', marginTop: '20px', paddingLeft: '5%', paddingTop: '3%'}}>
+                <div className='botoes' style={{display: 'flex', flexDirection: 'column', marginTop: '20px', paddingLeft: '5%', paddingTop: '3%', width: '80%'}}>
                     {alternativas.map((alternativa) => (
                         <FormGroup key={alternativa.id}>
-                            <FormControlLabel 
-                                control={<Checkbox checked={!!checked[alternativa.id]} onChange={() => handleCheckBoxChange(alternativa.id)} disabled={isSubmited}/>} 
-                                label={alternativa.resposta} 
-                            />
+                            <div>
+                                <FormControlLabel 
+                                    control={<Checkbox checked={!!checked[alternativa.id]} onChange={() => handleCheckBoxChange(alternativa.id)} disabled={isSubmited}/>} 
+                                    label={alternativa.resposta} 
+                                />
+
+                            </div>
                         </FormGroup>
                     ))}
                     
-                    <Button sx={{marginTop: '10%'}}
+                    <Button sx={{marginTop: '2%', width: '20%'}}
                             variant='contained'
                             color='error'
                             onClick={handleViewClick}>Submit
@@ -94,7 +98,7 @@ function FazerAula() {
                         </Typography>
                     )}
 
-                <div style={{paddingTop: '15%'}}>
+                <div style={{paddingTop: '5%'}}>
                     <a href={'/fazer/aula/' + (parseInt(id, 10) - 1)} style={{margin: '5px', backgroundColor: 'red', textDecoration: 'none', fontWeight: '800', padding: '10px', borderRadius: '50px', color: 'white'}}>←</a>
                     <a href={'/fazer/aula/' + (parseInt(id, 10) + 1)} style={{margin: '5px', backgroundColor: 'red', textDecoration: 'none', fontWeight: '800', padding: '10px', borderRadius: '50px', color: 'white'}}>→</a>
                 </div>
