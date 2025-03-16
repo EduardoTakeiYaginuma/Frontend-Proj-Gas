@@ -86,7 +86,7 @@ const EditarAula = () => {
       <div className="geral">
         <Grid container spacing={2} className="login-container">
           <Grid item xs={1} style={{ paddingLeft: '40px', paddingTop: '3%' }}>
-            <Link to="/aulas" style={{ textDecoration: 'none', color: '#B9171C' }}>
+            <Link to="/homeAdmin" style={{ textDecoration: 'none', color: '#B9171C' }}>
               <ArrowBackIcon className="back-arrow" style={{ fontSize: '2rem' }} />
             </Link>
           </Grid>
