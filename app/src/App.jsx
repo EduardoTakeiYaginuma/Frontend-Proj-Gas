@@ -54,7 +54,7 @@ function App() {
           <Route path="/usuarios/criar" element={<CadastroUsuario />} />
           <Route path="/dashboard" element={<Dashboard />} />
 
-          <Route path="/fazer/aula/:id" element={<FazerAula />} />
+          <Route path="/fazer_aula/:id/exercicio/:id_exercicio" element={<FazerAula />} />
           <Route path="/aula/criar" element={<CriarAula />} />
           <Route path="/aula/:id" element={<EditarAula />} />
 

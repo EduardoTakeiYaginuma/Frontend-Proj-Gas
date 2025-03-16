@@ -46,7 +46,7 @@ function CasosTable() {
 
   const handleSearchChange = (event) => setSearchTerm(event.target.value);
   const handleSortChange = (event) => setSortOption(event.target.value);
-  const handleViewClick = (id) => navigate(`/fazer/aula/${id}`);
+  const handleViewClick = (id) => navigate(`/fazer_aula/${id}/exercicio/1`);
   const handleChangePage = (event, newPage) => setPage(newPage);
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
