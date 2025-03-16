@@ -93,7 +93,7 @@ const EditarAula = () => {
           <Grid item xs={10} style={{ textAlign: 'center' }}>
             <Container maxWidth="md">
               <Box sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Typography component="h1" variant="h4" sx={{ fontWeight: 'bold', color: '#B9171C', marginBottom: 4 }}>
+                <Typography component="h1" variant="h4" sx={{ fontWeight: 'bold', marginBottom: 4 }}>
                   Editar Aula
                 </Typography>
                 <Box
