@@ -108,7 +108,7 @@ function FazerAula() {
                             color: '#dcdcdc',
                         }}
                     >
-                        Exercicio {id}
+                        Exercício {id_exercicio}
                     </Typography>
                 </div>
 

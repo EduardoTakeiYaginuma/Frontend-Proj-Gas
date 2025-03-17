@@ -77,7 +77,7 @@ const CriarAula = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(aulaData),
       });
@@ -89,7 +89,7 @@ const CriarAula = () => {
       const data = await response.json();
       console.log('Aula cadastrada com sucesso:', data);
       alert('Aula cadastrada com sucesso');
-      
+
       // Reseta o formulário
       setFormData({
         titulo: '',
@@ -105,17 +105,15 @@ const CriarAula = () => {
   return (
     <div>
       <HeaderAdmin />
-      
       <div className="geral">
         <Grid container spacing={2} className="login-container">
           <Grid item xs={1} style={{ paddingLeft: '40px', paddingTop: '3%' }}>
-            <Link to="/aulas" style={{ textDecoration: 'none', color: '#007bff' }}>
-              <ArrowBackIcon className="back-arrow" />
+            <Link to="/homeAdmin" style={{ textDecoration: 'none', color: '#B9171C' }}>
+              <ArrowBackIcon className="back-arrow" style={{ fontSize: '2rem' }} />
             </Link>
           </Grid>
           <Grid item xs={10} style={{ textAlign: 'center' }}>
-            <br />
-            <Container maxWidth="xs">
+            <Container maxWidth="md">
               <Box
                 sx={{
                   marginTop: 8,
@@ -124,10 +122,21 @@ const CriarAula = () => {
                   alignItems: 'center',
                 }}
               >
-                <Typography component="h1" variant="h5">
+                <Typography component="h1" variant="h4" sx={{ fontWeight: 'bold', marginBottom: 4 }}>
                   Nova Aula
                 </Typography>
-                <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                <Box
+                  component="form"
+                  onSubmit={handleSubmit}
+                  sx={{
+                    mt: 3,
+                    width: '100%',
+                    padding: '24px',
+                    borderRadius: '12px',
+                    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
+                    backgroundColor: '#ffffff',
+                  }}
+                >
                   <TextField
                     margin="normal"
                     required
@@ -139,6 +148,7 @@ const CriarAula = () => {
                     onChange={handleChange}
                     autoComplete="titulo"
                     autoFocus
+                    sx={{ backgroundColor: '#f9f9f9', borderRadius: '8px' }}
                   />
                   <TextField
                     margin="normal"
@@ -150,12 +160,23 @@ const CriarAula = () => {
                     name="prazo"
                     value={formData.prazo}
                     onChange={handleChange}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
+                    InputLabelProps={{ shrink: true }}
+                    sx={{ backgroundColor: '#f9f9f9', borderRadius: '8px' }}
                   />
                   {formData.exercicios.map((exercicio, index) => (
-                    <div key={index} style={{ marginBottom: '20px' }}>
+                    <Box
+                      key={index}
+                      sx={{
+                        marginBottom: 4,
+                        border: '1px solid #ddd',
+                        borderRadius: '8px',
+                        padding: '16px',
+                        backgroundColor: '#f9f9f9',
+                      }}
+                    >
+                      <Typography variant="h6" sx={{ marginBottom: 2 }}>
+                        Exercício {index + 1}
+                      </Typography>
                       <TextField
                         margin="normal"
                         fullWidth
@@ -164,10 +185,11 @@ const CriarAula = () => {
                         name="enunciado"
                         value={exercicio.enunciado}
                         onChange={(e) => handleExercicioChange(index, e)}
+                        sx={{ backgroundColor: '#ffffff', borderRadius: '8px' }}
                       />
-                      <Grid container spacing={2} sx={{ marginTop: '10px' }}>
+                      <Grid container spacing={2} sx={{ marginTop: 2 }}>
                         {exercicio.respostas.map((resposta, respostaIndex) => (
-                          <Grid item xs={6} key={respostaIndex}>
+                          <Grid item xs={12} sm={6} key={respostaIndex}>
                             <TextField
                               margin="normal"
                               fullWidth
@@ -176,6 +198,7 @@ const CriarAula = () => {
                               name={`resposta-${respostaIndex}`}
                               value={resposta}
                               onChange={(e) => handleExercicioChange(index, e)}
+                              sx={{ backgroundColor: '#ffffff', borderRadius: '8px' }}
                             />
                             <FormControlLabel
                               control={
@@ -183,19 +206,27 @@ const CriarAula = () => {
                                   checked={exercicio.respostasCorretas[respostaIndex]}
                                   onChange={(e) => handleExercicioChange(index, e)}
                                   name={`correta-${respostaIndex}`}
+                                  sx={{ color: '#B9171C', '&.Mui-checked': { color: '#B9171C' } }}
                                 />
                               }
                               label="Resposta correta"
+                              sx={{ color: '#555555' }}
                             />
                           </Grid>
                         ))}
                       </Grid>
-                    </div>
+                    </Box>
                   ))}
                   <Button
                     variant="outlined"
                     onClick={handleAddExercicio}
-                    sx={{ mt: 2, mb: 2 }}
+                    sx={{
+                      mt: 2,
+                      mb: 2,
+                      color: '#B9171C',
+                      borderColor: '#B9171C',
+                      '&:hover': { borderColor: '#9e1317', color: '#9e1317' },
+                    }}
                   >
                     Adicionar Exercício
                   </Button>
@@ -203,7 +234,15 @@ const CriarAula = () => {
                     type="submit"
                     fullWidth
                     variant="contained"
-                    sx={{ mt: 3, mb: 2, backgroundColor: '#B9171C' }}
+                    sx={{
+                      mt: 3,
+                      mb: 2,
+                      backgroundColor: '#B9171C',
+                      '&:hover': { backgroundColor: '#9e1317' },
+                      padding: '12px',
+                      fontSize: '1rem',
+                      fontWeight: 'bold',
+                    }}
                   >
                     Cadastrar Aula
                   </Button>

@@ -56,7 +56,7 @@ function App() {
 
           <Route path="/fazer/exercicio/:id" element={<FazerAula />} />
           <Route path="/aula/criar" element={<CriarAula />} />
-          <Route path="/aula/:id" element={<EditarAula />} />
+          <Route path="/aula/editar/:id" element={<EditarAula />} />
 
 
         <Route path="*" element={<NaoEncontrado />} />

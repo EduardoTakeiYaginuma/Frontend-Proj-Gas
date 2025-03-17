@@ -51,7 +51,7 @@ const RegisterForm = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(userData),
       });
@@ -64,7 +64,7 @@ const RegisterForm = () => {
       const data = await response.json();
       console.log('Cadastro realizado com sucesso:', data);
       alert('Cadastro realizado com sucesso');
-      
+
       // Reseta o formulário
       setFormData({
         email: '',
@@ -82,16 +82,14 @@ const RegisterForm = () => {
   return (
     <div>
       <HeaderAdmin />
-      
-      <div className='geral'>
+      <div className="geral">
         <Grid container spacing={2} className="login-container">
-          <Grid item xs={1} style={{paddingLeft:"40px", paddingTop:"3%" }}>
-            <Link to="/usuarios" style={{ textDecoration: 'none', color:"#007bff" }}>
-              <ArrowBackIcon className="back-arrow" />
+          <Grid item xs={1} style={{ paddingLeft: '40px', paddingTop: '3%' }}>
+            <Link to="/usuarios" style={{ textDecoration: 'none', color: '#B9171C' }}>
+              <ArrowBackIcon className="back-arrow" style={{ fontSize: '2rem' }} />
             </Link>
           </Grid>
-          <Grid item xs={10} style={{textAlign:'center'}}>
-            <br/>
+          <Grid item xs={10} style={{ textAlign: 'center' }}>
             <Container maxWidth="xs">
               <Box
                 sx={{
@@ -101,10 +99,21 @@ const RegisterForm = () => {
                   alignItems: 'center',
                 }}
               >
-                <Typography component="h1" variant="h5">
+                <Typography component="h1" variant="h4" sx={{ fontWeight: 'bold', marginBottom: 4 }}>
                   Cadastro
                 </Typography>
-                <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                <Box
+                  component="form"
+                  onSubmit={handleSubmit}
+                  sx={{
+                    mt: 3,
+                    width: '100%',
+                    padding: '24px',
+                    borderRadius: '12px',
+                    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
+                    backgroundColor: '#ffffff',
+                  }}
+                >
                   <TextField
                     margin="normal"
                     required
@@ -116,6 +125,7 @@ const RegisterForm = () => {
                     onChange={handleChange}
                     autoComplete="email"
                     autoFocus
+                    sx={{ backgroundColor: '#f9f9f9', borderRadius: '8px' }}
                   />
                   <TextField
                     margin="normal"
@@ -127,6 +137,7 @@ const RegisterForm = () => {
                     value={formData.nome}
                     onChange={handleChange}
                     autoComplete="nome"
+                    sx={{ backgroundColor: '#f9f9f9', borderRadius: '8px' }}
                   />
                   <TextField
                     margin="normal"
@@ -139,6 +150,7 @@ const RegisterForm = () => {
                     value={formData.senha}
                     onChange={handleChange}
                     autoComplete="current-password"
+                    sx={{ backgroundColor: '#f9f9f9', borderRadius: '8px' }}
                   />
                   <TextField
                     margin="normal"
@@ -151,6 +163,7 @@ const RegisterForm = () => {
                     value={formData.confirmarSenha}
                     onChange={handleChange}
                     autoComplete="confirm-password"
+                    sx={{ backgroundColor: '#f9f9f9', borderRadius: '8px' }}
                   />
                   <TextField
                     margin="normal"
@@ -161,16 +174,24 @@ const RegisterForm = () => {
                     name="permissoes"
                     value={formData.permissoes}
                     onChange={handleChange}
+                    sx={{ backgroundColor: '#f9f9f9', borderRadius: '8px' }}
                   >
                     <MenuItem value="0">Aluno</MenuItem>
                     <MenuItem value="1">Admin</MenuItem>
-
                   </TextField>
                   <Button
                     type="submit"
                     fullWidth
                     variant="contained"
-                    sx={{ mt: 3, mb: 2 , backgroundColor:"#B9171C"}}
+                    sx={{
+                      mt: 3,
+                      mb: 2,
+                      backgroundColor: '#B9171C',
+                      '&:hover': { backgroundColor: '#9e1317' },
+                      padding: '12px',
+                      fontSize: '1rem',
+                      fontWeight: 'bold',
+                    }}
                   >
                     Cadastrar
                   </Button>

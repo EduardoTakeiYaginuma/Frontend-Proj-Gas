@@ -98,7 +98,7 @@ function AulasTable() {
                                                 <Button
                                                     variant="contained"
                                                     style={{ backgroundColor: "#B9171C", color: "#fff", borderRadius: '5px', padding: '8px 20px', transition: 'background-color 0.3s' }}
-                                                    onClick={() => navigate(`/aula/${aula._id}`)}
+                                                    onClick={() => navigate(`/aula/editar/${aula._id}`)}
                                                 >
                                                     Editar
                                                 </Button>
