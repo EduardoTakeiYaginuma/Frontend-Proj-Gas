@@ -24,7 +24,7 @@ function FazerAula() {
     };
 
     useEffect(() => {
-        fetch(`http://127.0.0.1:8000/fazer/exercicio/${id}`)
+        fetch(`http://127.0.0.1:8000/fazer/aula/${id}`)
             .then((response) => {
                 if (!response.ok) throw new Error("Erro ao buscar aula");
                 return response.json();
