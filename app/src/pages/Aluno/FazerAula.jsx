@@ -4,104 +4,167 @@ import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
-import { useState } from 'react';
-
-const enunciado = {"enunciado": "Algum enunciado pro aluno ler."}
-const alternativas = [
-    {id: 1, resposta: "Essa e a resposta correta", correto: true},
-    {id: 2, resposta: "Essa e a resposta errada", correto: false},
-    {id: 3, resposta: "Essa e a resposta errada", correto: false},
-    {id: 4, resposta: "Essa e a resposta errada", correto: false}
-]
+import { useState, useEffect } from 'react';
 
 function FazerAula() {
+    const [alternativas, setAlternativas] = useState([]); // Armazena as alternativas
+    const [enunciado, setEnunciado] = useState(""); // Armazena o enunciado
+    const [explicacao, setExplicacao] = useState("")
     const { id } = useParams(); // Pega o parâmetro 'id' da URL
     const navigate = useNavigate();
-    const [checked, setChecked] = useState({});
-    const [isSubmited, setIsSubmited] = useState(false);
+    const [checked, setChecked] = useState({}); // Armazena as alternativas selecionadas
+    const [questao, setQuestao] = useState(null);
+    const [isSubmited, setIsSubmited] = useState(false); // Se a questão foi submetida
     const [respostaCorreta, setRespostaCorreta] = useState(null); // Armazena a resposta correta
 
     const handleCheckBoxChange = (id) => {
         if (!isSubmited) {
-            setChecked(prev => ({ ...prev, [id]: !prev[id]}));
+            setChecked((prev) => ({ ...prev, [id]: !prev[id] }));
         }
     };
+
+    useEffect(() => {
+        fetch(`http://127.0.0.1:8000/fazer/exercicio/${id}`)
+            .then((response) => {
+                if (!response.ok) throw new Error("Erro ao buscar aula");
+                return response.json();
+            })
+            .then((data) => {
+                console.log("Resposta da API:", data);
+                console.log("enunciado", data[0][1]);
+                if (data) {
+                    setAlternativas(JSON.parse(data[0][2])); 
+                    setEnunciado(data[0][1] || "");
+                    setExplicacao(data[0][3] || "");
+                    setRespostaCorreta(data[0][4])
+                    console.log(data[0][4])
+                } else {
+                    throw new Error("Resposta inesperada da API");
+                }
+            })
+            .catch((error) => console.error("Erro ao buscar aula:", error));
+    }, [id]);
 
     const handleViewClick = () => {
         setIsSubmited(true);
 
-        // Verifica qual alternativa foi marcada e se é a correta
-        const alternativaEscolhida = alternativas.find(alternativa => checked[alternativa.id]);
-        
-        if (alternativaEscolhida && alternativaEscolhida.correto) {
-            setRespostaCorreta(alternativaEscolhida.resposta);
-        } else if (alternativaEscolhida) {
-            setRespostaCorreta(alternativaEscolhida.resposta);
+        const alternativaEscolhida = alternativas.find(
+            (alternativa) => checked[alternativa]
+        );
+
+        if (alternativaEscolhida) {
+            if (alternativaEscolhida == respostaCorreta) {
+                setRespostaCorreta("Resposta correta! " + explicacao)
+            } else {
+                setRespostaCorreta("Resposta errada. " + explicacao);
+            }
         } else {
             setRespostaCorreta("Nenhuma alternativa selecionada.");
         }
     };
 
-
     return (
-        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100vw', height: '100vh'}}>
-            <div className='container' style={{ display: "flex", paddingTop:"0%", width: '80vw', height: '80vh', flexDirection: 'column', alignItems: 'start', boxShadow: '2px 5px 5px  grey', borderRadius: '10px'}}>
-                <div style={{width: '100%', backgroundColor: '#B9171C', paddingBottom: '2%', paddingTop: '2%', borderRadius: '10px 10px 0px 0px'}}>
-                    <Typography 
-                        variant="h4" 
-                        component="h4" 
+        <div
+            style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100vw',
+                height: '100vh',
+            }}
+        >
+            <div
+                className='container'
+                style={{
+                    display: 'flex',
+                    paddingTop: '0%',
+                    width: '80vw',
+                    height: '80vh',
+                    flexDirection: 'column',
+                    alignItems: 'start',
+                    boxShadow: '2px 5px 5px grey',
+                    borderRadius: '10px',
+                }}
+            >
+                <div
+                    style={{
+                        width: '100%',
+                        backgroundColor: '#B9171C',
+                        paddingBottom: '2%',
+                        paddingTop: '2%',
+                        borderRadius: '10px 10px 0px 0px',
+                    }}
+                >
+                    <Typography
+                        variant="h4"
+                        component="h4"
                         style={{
-                            paddingTop: '2%', 
-                            paddingLeft:"5%",
-                            paddingBottom:"1vh",
-                            fontFamily: 'Roboto, sans-serif', 
-                            fontWeight: 'bold', 
+                            paddingTop: '2%',
+                            paddingLeft: '5%',
+                            paddingBottom: '1vh',
+                            fontFamily: 'Roboto, sans-serif',
+                            fontWeight: 'bold',
                             textTransform: 'uppercase',
-                            color: '#dcdcdc'
+                            color: '#dcdcdc',
                         }}
                     >
                         Exercicio {id}
                     </Typography>
                 </div>
-                <Typography
-                    variant='h6'
+
+                <Typography variant="h6" style={{ paddingLeft: '5%', paddingTop: '3%' }}>
+                    {id}) {enunciado}
+                </Typography>
+
+                <div
+                    className='botoes'
                     style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        marginTop: '20px',
                         paddingLeft: '5%',
-                        paddingTop: '3%'
+                        paddingTop: '3%',
+                        width: '80%',
                     }}
                 >
-                    {id}) {enunciado.enunciado}
-                </Typography>
-                
-                <div className='botoes' style={{display: 'flex', flexDirection: 'column', marginTop: '20px', paddingLeft: '5%', paddingTop: '3%', width: '80%'}}>
-                    {alternativas.map((alternativa) => (
-                        <FormGroup key={alternativa.id}>
-                            <div>
-                                <FormControlLabel 
-                                    control={<Checkbox checked={!!checked[alternativa.id]} onChange={() => handleCheckBoxChange(alternativa.id)} disabled={isSubmited}/>} 
-                                    label={alternativa.resposta} 
+                    {Array.isArray(alternativas) &&
+                        alternativas.map((alternativa) => (
+                            <FormGroup key={alternativa}>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={!!checked[alternativa]}
+                                            onChange={() => handleCheckBoxChange(alternativa)}
+                                            disabled={isSubmited}
+                                        />
+                                    }
+                                    label={alternativa} 
                                 />
+                            </FormGroup>
+                        ))}
 
-                            </div>
-                        </FormGroup>
-                    ))}
-                    
-                    <Button sx={{marginTop: '2%', width: '20%'}}
-                            variant='contained'
-                            color='error'
-                            onClick={handleViewClick}>Submit
+                    <Button
+                        sx={{ marginTop: '2%', width: '20%' }}
+                        variant="contained"
+                        color="error"
+                        onClick={handleViewClick}
+                    >
+                        Submit
                     </Button>
 
-                    {isSubmited && (
-                        <Typography variant='h6' style={{ marginTop: '10px', color: 'green' }}>
+                    {/* Exibe a resposta após a submissão */}
+                    {isSubmited && respostaCorreta && (
+                        <Typography
+                            variant="h6"
+                            style={{
+                                paddingTop: '2%',
+                                paddingLeft: '5%',
+                                color: respostaCorreta.includes('correta') ? 'green' : 'red',
+                            }}
+                        >
                             {respostaCorreta}
                         </Typography>
                     )}
-
-                <div style={{paddingTop: '5%'}}>
-                    <a href={'/fazer/aula/' + (parseInt(id, 10) - 1)} style={{margin: '5px', backgroundColor: 'red', textDecoration: 'none', fontWeight: '800', padding: '10px', borderRadius: '50px', color: 'white'}}>←</a>
-                    <a href={'/fazer/aula/' + (parseInt(id, 10) + 1)} style={{margin: '5px', backgroundColor: 'red', textDecoration: 'none', fontWeight: '800', padding: '10px', borderRadius: '50px', color: 'white'}}>→</a>
-                </div>
                 </div>
             </div>
         </div>

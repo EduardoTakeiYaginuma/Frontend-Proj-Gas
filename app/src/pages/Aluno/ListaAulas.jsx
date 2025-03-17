@@ -31,22 +31,21 @@ function CasosTable() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    let results = casos.filter(caso =>
-      caso.aluno.nome.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    fetch(`http://127.0.0.1:8000/homeAluno`)
+        .then(response => response.json())
+        .then((data) => {
+            console.log(data)
+            setCasos(data)
 
-    if (sortOption === "nameAsc") {
-      results.sort((a, b) => a.aluno.nome.localeCompare(b.aluno.nome));
-    } else if (sortOption === "nameDesc") {
-      results.sort((a, b) => b.aluno.nome.localeCompare(a.aluno.nome));
-    }
-
-    setFilteredCasos(results);
+            
+            }
+        )
+        .catch(error => console.error("Nao foi possivel carregar o bagulho: ", error))
   }, [searchTerm, sortOption, casos]);
 
   const handleSearchChange = (event) => setSearchTerm(event.target.value);
   const handleSortChange = (event) => setSortOption(event.target.value);
-  const handleViewClick = (id) => navigate(`/fazer/aula/${id}`);
+  const handleViewClick = (id) => navigate(`/fazer/exercicio/${id}`);
   const handleChangePage = (event, newPage) => setPage(newPage);
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);

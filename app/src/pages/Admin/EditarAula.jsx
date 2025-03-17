@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextField, Button, MenuItem, Typography, Container, Box, Grid, Checkbox, FormControlLabel } from '@mui/material';
 import HeaderAdmin from './HeaderAdmin';
 import { Link } from 'react-router-dom';
@@ -25,6 +25,10 @@ const CriarAula = () => {
                     respostas: ['b', 'b', 'b', 'b'],
                     respostasCorretas: [true, false, false, false],}
             ],
+  });
+
+  useEffect(() => {
+    
   });
 
   // Função para atualizar o estado do formulário
