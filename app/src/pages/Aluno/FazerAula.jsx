@@ -16,6 +16,7 @@ function FazerAula() {
     const [questao, setQuestao] = useState(null);
     const [isSubmited, setIsSubmited] = useState(false); // Se a questão foi submetida
     const [respostaCorreta, setRespostaCorreta] = useState(null); // Armazena a resposta correta
+    const [id_exercicio, setIdExercicio] = useState(null);
 
     const handleCheckBoxChange = (id) => {
         if (!isSubmited) {
@@ -31,13 +32,21 @@ function FazerAula() {
             })
             .then((data) => {
                 console.log("Resposta da API:", data);
-                console.log("enunciado", data[0][1]);
+                const exercicioIndex = 0;
+                let enunciado;
+                try {
+                    enunciado = JSON.parse(data[0][2]);
+                    console.log("enunciado", enunciado[exercicioIndex][3]);
+                } catch (error) {
+                    throw new Error("Erro ao parsear o enunciado");
+                }
                 if (data) {
-                    setAlternativas(JSON.parse(data[0][2])); 
-                    setEnunciado(data[0][1] || "");
-                    setExplicacao(data[0][3] || "");
-                    setRespostaCorreta(data[0][4])
-                    console.log(data[0][4])
+                    setIdExercicio(exercicioIndex);
+                    setAlternativas(JSON.parse(enunciado[exercicioIndex][2])); 
+                    setEnunciado(enunciado[exercicioIndex][1] || "");
+                    setExplicacao(enunciado[exercicioIndex][3] || "");
+                    setRespostaCorreta(enunciado[exercicioIndex][4]);
+                    console.log(enunciado[exercicioIndex][4]);
                 } else {
                     throw new Error("Resposta inesperada da API");
                 }
@@ -108,7 +117,7 @@ function FazerAula() {
                             color: '#dcdcdc',
                         }}
                     >
-                        Exercício {id_exercicio}
+                        Exercício {id}
                     </Typography>
                 </div>
 
