@@ -4,7 +4,6 @@ import { Button, TextField, Container, Typography, Alert, Grid, Box } from '@mui
 import HeaderLogin from './headerLogin';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../components/img/logo.png';
-import gas from '../../components/img/gas.png';
 import '../static/Login.css';
 
 /**
@@ -14,21 +13,20 @@ import '../static/Login.css';
 export default function Login() {
   const cookies = new Cookies(); // Instância de Cookies para gerenciar cookies
   const [email, setEmail] = useState(""); // Estado para armazenar o email
-  const [password, setPassword] = useState(""); // Estado para armazenar a senha
+  const [senha, setPassword] = useState(""); // Estado para armazenar a senha
   const [error, setError] = useState(null); // Estado para armazenar mensagens de erro
   const navigate = useNavigate(); // Hook de navegação do React Router
-
   // Função para lidar com o envio do formulário de login
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch("https://sibae-5d2fe0c3da99.herokuapp.com/login", {
+      const response = await fetch("http://127.0.0.1:8000/login", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, senha })
       });
 
       if (response.ok) {
@@ -84,7 +82,7 @@ export default function Login() {
                       type="password"
                       name="password"
                       label="Senha"
-                      value={password}
+                      value={senha}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="Digite sua senha"
                       variant="outlined"
