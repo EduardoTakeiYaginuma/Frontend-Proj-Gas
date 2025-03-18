@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, MenuItem, Typography, Container, Box, Grid, Checkbox, FormControlLabel } from '@mui/material';
+import { TextField, Button, Typography, Container, Box, Grid, Checkbox, FormControlLabel } from '@mui/material';
 import HeaderAdmin from './HeaderAdmin';
 import { Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
@@ -10,7 +10,6 @@ const cookies = new Cookies();
 
 const CriarAula = () => {
   const token = cookies.get('token');
-
   // Estado inicial do formulário
   const [formData, setFormData] = useState({
     titulo: '',
@@ -26,12 +25,12 @@ const CriarAula = () => {
       [name]: value,
     });
   };
-
   // Função para adicionar um exercício
   const handleAddExercicio = () => {
     const newExercicio = {
       enunciado: '',
       respostas: ['', '', '', ''],
+      explicaçao: '',
       respostasCorretas: [false, false, false, false],
     };
 
@@ -54,7 +53,6 @@ const CriarAula = () => {
       const respostaIndex = parseInt(name.split('-')[1]);
       updatedExercicios[index].respostasCorretas[respostaIndex] = e.target.checked;
     }
-
     setFormData({
       ...formData,
       exercicios: updatedExercicios,
@@ -73,7 +71,7 @@ const CriarAula = () => {
 
     try {
       // Faz a requisição para cadastrar a aula
-      const response = await fetch('https://sibae-5d2fe0c3da99.herokuapp.com/aulas', {
+      const response = await fetch('http://127.0.0.1:8000/aula/criar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
