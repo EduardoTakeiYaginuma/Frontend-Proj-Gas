@@ -6,17 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../../components/img/logo.png';
 import '../static/Login.css';
 
-/**
- * Componente de login.
- * Permite ao usuário inserir suas credenciais e realizar a autenticação.
- */
 export default function Login() {
-  const cookies = new Cookies(); // Instância de Cookies para gerenciar cookies
-  const [email, setEmail] = useState(""); // Estado para armazenar o email
-  const [senha, setPassword] = useState(""); // Estado para armazenar a senha
-  const [error, setError] = useState(null); // Estado para armazenar mensagens de erro
-  const navigate = useNavigate(); // Hook de navegação do React Router
-  // Função para lidar com o envio do formulário de login
+  const cookies = new Cookies();
+  const [email, setEmail] = useState("");
+  const [senha, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -32,44 +28,50 @@ export default function Login() {
       if (response.ok) {
         const data = await response.json();
         console.log(data);
-        cookies.set("token", data.token, { path: "/" }); // Armazena o token de autenticação em um cookie
-        window.location.href = "/"; // Redireciona para a página inicial
+        console.log(data.usuario[4])
+        cookies.set("token", data.token, { path: "/" });
+        
+        if (data.usuario[4] === 1) {
+          navigate("/homeAdmin");
+        } else if (data.usuario[4] === 0) {
+          navigate("/homeAluno");
+        } else {
+          setError("Permissão inválida.");
+        }
       } else {
         const errorData = await response.json();
         console.log(errorData);
-        setError("Credenciais não conferem. Confirme seu email e senha."); // Exibe mensagem de erro
+        setError("Credenciais não conferem. Confirme seu email e senha.");
       }
     } catch (error) {
       console.log(error);
-      setError("Ocorreu um erro ao tentar fazer login."); // Exibe mensagem de erro
+      setError("Ocorreu um erro ao tentar fazer login.");
     }
   };
 
   return (
     <div>
-      <HeaderLogin /> {/* Componente de cabeçalho do login */}
+      <HeaderLogin />
       <div className='login-container'>
         <Grid container spacing={2} className="login-container">
           <Grid item xs={5} style={{ textAlign: 'center' }}>
             <img src={logo} alt="Logo" style={{ width: 350, height: 150 }} />
-            
-            <Typography variant="h6" component="h6" style={{ textAlign: 'justify', padding: '0 10%', marginTop: '20px' }}>
-              O Grupo de Ação Social é uma entidade estudantil com foco em desenvolver, apoiar e executar projetos de âmbito social de forma a gerar conscientização, incentivos, comportamentos e atitudes que promovam a transformação social na comunidade.
+            <Typography variant="h6" style={{ textAlign: 'justify', padding: '0 10%', marginTop: '20px' }}>
+              O Grupo de Ação Social é uma entidade estudantil com foco em desenvolver, apoiar e executar projetos de âmbito social.
             </Typography>
           </Grid>
           <Grid item xs={2} style={{ textAlign: 'center' }}>
             <Box className="box-divider"></Box>
           </Grid>
-          <Grid item xs={5} style={{ alignItems: "center", justifyContent: "center", paddingRight: '90px', marginTop: '20px', paddingTop: 'vh' }}>
+          <Grid item xs={5} style={{ paddingRight: '90px', marginTop: '20px' }}>
             <Container>
               <div className='login-wrapper'>
                 <div className='login-text'>
-                  <Typography variant="h4" component="h1" id="login-text">Login</Typography>
+                  <Typography variant="h4">Login</Typography>
                   <form onSubmit={handleSubmit} style={{ opacity: "0.9", backgroundColor: "white" }}>
                     <TextField
                       fullWidth
                       type="email"
-                      name="email"
                       label="Email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
@@ -80,7 +82,6 @@ export default function Login() {
                     <TextField
                       fullWidth
                       type="password"
-                      name="password"
                       label="Senha"
                       value={senha}
                       onChange={(e) => setPassword(e.target.value)}
@@ -89,13 +90,9 @@ export default function Login() {
                       margin="normal"
                     />
                     <div className='login-button'>
-                    <Button
-                      variant="contained"
-                      type="submit"
-                      style={{ backgroundColor: '#B9171C', marginTop: '10%' }}
-                    >
-                      Entrar
-                    </Button>
+                      <Button variant="contained" type="submit" style={{ backgroundColor: '#B9171C', marginTop: '10%' }}>
+                        Entrar
+                      </Button>
                     </div>
                     {error && <Alert severity="error" className='Alert'>{error}</Alert>}
                   </form>
