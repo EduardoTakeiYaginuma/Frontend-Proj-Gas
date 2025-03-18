@@ -25,13 +25,14 @@ const CriarAula = () => {
       [name]: value,
     });
   };
+
   // Função para adicionar um exercício
   const handleAddExercicio = () => {
     const newExercicio = {
       enunciado: '',
       respostas: ['', '', '', ''],
       explicaçao: '',
-      respostasCorretas: [false, false, false, false],
+      respostaCorreta: '',
     };
 
     setFormData({
@@ -49,9 +50,8 @@ const CriarAula = () => {
     } else if (name.startsWith('resposta')) {
       const respostaIndex = parseInt(name.split('-')[1]);
       updatedExercicios[index].respostas[respostaIndex] = value;
-    } else if (name.startsWith('correta')) {
-      const respostaIndex = parseInt(name.split('-')[1]);
-      updatedExercicios[index].respostasCorretas[respostaIndex] = e.target.checked;
+    } else if (name === 'correta') {
+      updatedExercicios[index].respostaCorreta = value;
     }
     setFormData({
       ...formData,
@@ -201,8 +201,7 @@ const CriarAula = () => {
                             <FormControlLabel
                               control={
                                 <Checkbox
-                                  checked={exercicio.respostasCorretas[respostaIndex]}
-                                  onChange={(e) => handleExercicioChange(index, e)}
+                                  onChange={() => handleExercicioChange(index, { target: { name: 'correta', value: resposta } })}
                                   name={`correta-${respostaIndex}`}
                                   sx={{ color: '#B9171C', '&.Mui-checked': { color: '#B9171C' } }}
                                 />
