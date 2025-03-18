@@ -44,8 +44,8 @@ const RegisterForm = () => {
     const userData = {
       email: formData.email,
       nome: formData.nome,
-      permissao: formData.permissoes,
-      password: formData.senha,
+      permissoes: formData.permissoes,
+      senha: formData.senha,
     };
 
     try {
@@ -74,7 +74,7 @@ const RegisterForm = () => {
         nome: '',
         senha: '',
         confirmarSenha: '',
-        permissoes: 'professor',
+        permissoes: 0,
       });
     } catch (error) {
       console.error('Erro:', error);
