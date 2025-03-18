@@ -18,11 +18,7 @@ const columns = [
 ];
 
 function CasosTable() {
-  const [casos, setCasos] = useState([
-    { _id: '1', aluno: { nome: 'Exercício 1' }, prazo: '20/03/2025', score: 85 },
-    { _id: '2', aluno: { nome: 'Exercício 2' }, prazo: '25/03/2025', score: 40 },
-    { _id: '3', aluno: { nome: 'Exercício 3' }, prazo: '30/03/2025', score: 60 },
-  ]);
+  const [casos, setCasos] = useState([]);
   const [filteredCasos, setFilteredCasos] = useState(casos);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOption, setSortOption] = useState("");
@@ -32,16 +28,18 @@ function CasosTable() {
 
   useEffect(() => {
     fetch(`http://127.0.0.1:8000/homeAluno`)
-        .then(response => response.json())
-        .then((data) => {
-            console.log(data)
-            setCasos(data)
-
-            
-            }
-        )
+      .then((response) => {
+        if (!response.ok) throw new Error("Erro ao buscar aula");
+        return response.json();
+      })
+      .then((data) => {
+          console.log(data)
+          setCasos(data)
+      })
         .catch(error => console.error("Nao foi possivel carregar o bagulho: ", error))
   }, [searchTerm, sortOption, casos]);
+
+
 
   const handleSearchChange = (event) => setSearchTerm(event.target.value);
   const handleSortChange = (event) => setSortOption(event.target.value);
