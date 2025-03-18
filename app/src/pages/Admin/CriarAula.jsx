@@ -227,6 +227,7 @@ const CriarAula = () => {
                   >
                     Adicionar Exercício
                   </Button>
+                  <Link to= "/" style={{ textDecoration: 'none', color: '#B9171C' }}>
                   <Button
                     type="submit"
                     fullWidth
@@ -243,6 +244,7 @@ const CriarAula = () => {
                   >
                     Cadastrar Aula
                   </Button>
+                  </Link>
                 </Box>
               </Box>
             </Container>

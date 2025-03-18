@@ -182,6 +182,7 @@ const RegisterForm = () => {
                     <MenuItem value="0">Aluno</MenuItem>
                     <MenuItem value="1">Admin</MenuItem>
                   </TextField>
+                  <Link to = "/" style={{ textDecoration: 'none', color: '#B9171C' }}>
                   <Button
                     type="submit"
                     fullWidth
@@ -198,6 +199,7 @@ const RegisterForm = () => {
                   >
                     Cadastrar
                   </Button>
+                  </Link>
                 </Box>
               </Box>
             </Container>

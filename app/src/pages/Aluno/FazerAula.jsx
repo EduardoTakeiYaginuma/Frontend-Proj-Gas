@@ -31,11 +31,11 @@ function FazerAula() {
                 return response.json();
             })
             .then((data) => {
-                console.log("Resposta da API:", data);
+                console.log("Resposta da API:", data[0][5]);
                 const exercicioIndex = 0;
                 let enunciado;
                 try {
-                    enunciado = JSON.parse(data[0][2]);
+                    enunciado = JSON.parse(data[0][5]);
                     console.log("enunciado", enunciado[exercicioIndex][3]);
                 } catch (error) {
                     throw new Error("Erro ao parsear o enunciado");
@@ -151,7 +151,6 @@ function FazerAula() {
                                 />
                             </FormGroup>
                         ))}
-
                     <Button
                         sx={{ marginTop: '2%', width: '20%' }}
                         variant="contained"

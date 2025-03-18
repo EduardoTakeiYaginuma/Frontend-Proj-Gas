@@ -200,6 +200,7 @@ const EditarAula = () => {
                       </Grid>
                     </Box>
                   ))}
+                  <Link to = "/" style={{ textDecoration: 'none', color: '#B9171C' }}>
                   <Button
                     type="submit"
                     fullWidth
@@ -216,6 +217,7 @@ const EditarAula = () => {
                   >
                     Salvar mudanças
                   </Button>
+                  </Link>
                 </Box>
               </Box>
             </Container>
