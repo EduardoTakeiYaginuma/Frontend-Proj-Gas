@@ -17,7 +17,7 @@ const RegisterForm = () => {
     nome: '',
     senha: '',
     confirmarSenha: '',
-    permissoes: 'professor',
+    permissoes: 0,
   });
 
   // Função para atualizar o estado do formulário
@@ -29,9 +29,12 @@ const RegisterForm = () => {
     });
   };
 
+
+
   // Função para tratar o envio do formulário
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(formData)
     // Verifica se as senhas coincidem
     if (formData.senha !== formData.confirmarSenha) {
       alert('Senhas não coincidem!');
@@ -47,7 +50,7 @@ const RegisterForm = () => {
 
     try {
       // Faz a requisição para o cadastro do usuário
-      const response = await fetch('https://sibae-5d2fe0c3da99.herokuapp.com/usuarios', {
+      const response = await fetch('http://127.0.0.1:8000/usuarios/criar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -58,7 +61,7 @@ const RegisterForm = () => {
 
       // Trata a resposta da requisição
       if (!response.ok) {
-        throw new Error('Erro na requisição');
+        throw new Error('Erro na requisição', error);
       }
 
       const data = await response.json();
