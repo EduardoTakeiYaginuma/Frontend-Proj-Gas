@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField, Button, Typography, Container, Box, Grid, Checkbox, FormControlLabel } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import HeaderAdmin from './HeaderAdmin';
@@ -9,29 +9,38 @@ import './static/Cadastro.css';
 const cookies = new Cookies();
 
 const EditarAula = () => {
+  const { id } = useParams(); // Pega o parâmetro 'id' da URL
   const token = cookies.get('token');
 
   // Estado inicial do formulário
+  const [exercicios, setExercicios] = useState([])
   const [formData, setFormData] = useState({
-    titulo: 'titulo teste',
-    prazo: '2020/02/02',
-    exercicios: [
-      {
-        enunciado: 'Enunciado atualizado',
-        respostas: ['a', 'a', 'a', 'a'],
-        respostasCorretas: [false, true, false, false],
-      },
-      {
-        enunciado: 'Enunciado 2 atualizado',
-        respostas: ['b', 'b', 'b', 'b'],
-        respostasCorretas: [true, false, false, false],
-      },
-    ],
+    titulo: '',
+    prazo: '',
+    exercicios: []
   });
 
   useEffect(() => {
-    
-  });
+    fetch(`http://127.0.0.1:8000/aula/${id}/editar`, {
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Erro ao buscar aula");
+        return response.json();
+      })
+      .then((data) => {
+        if (data) {
+          const questao = JSON.parse(data.aula.exercicios);
+          setFormData(data.aula);
+          setExercicios(questao);
+          setFormData({ ...data.aula });
+          for (let i = 0; i < questao.length; i++) {
+            questao[i][2] = JSON.parse(questao[i][2]);
+          }
+          setExercicios(questao);
+        }
+      })
+      .catch((error) => console.error("Erro ao buscar aula:", error));
+  }, [id, token]);
 
   // Função para atualizar o estado do formulário
   const handleChange = (e) => {
@@ -41,33 +50,31 @@ const EditarAula = () => {
       [name]: value,
     });
   };
-
   // Função para atualizar os dados de um exercício
   const handleExercicioChange = (index, e) => {
-    const { name, value, checked } = e.target;
-    const updatedExercicios = [...formData.exercicios];
-
+    const { name, value } = e.target;
+    const updatedExercicios = [...exercicios];
     if (name === 'enunciado') {
-      updatedExercicios[index].enunciado = value;
+      updatedExercicios[index][1] = value;
     } else if (name.startsWith('resposta')) {
       const respostaIndex = parseInt(name.split('-')[1]);
-      updatedExercicios[index].respostas[respostaIndex] = value;
+      updatedExercicios[index][2][respostaIndex] = value;
     } else if (name.startsWith('correta')) {
       const respostaIndex = parseInt(name.split('-')[1]);
-      updatedExercicios[index].respostasCorretas[respostaIndex] = checked;
+      updatedExercicios[index][4] = value;
     }
-
+    
     setFormData({
       ...formData,
       exercicios: updatedExercicios,
     });
   };
-
+  
   // Envia os dados para atualizar a aula no backend
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://sibae-5d2fe0c3da99.herokuapp.com/aulas', {
+      const response = await fetch(`http://127.0.0.1:8000/aula/${id}/editar`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -75,7 +82,7 @@ const EditarAula = () => {
         },
         body: JSON.stringify(formData),
       });
-
+      
       if (!response.ok) throw new Error('Erro na atualização da aula');
       alert('Aula atualizada com sucesso');
     } catch (error) {
@@ -83,7 +90,7 @@ const EditarAula = () => {
       alert('Erro ao atualizar a aula');
     }
   };
-
+  
   return (
     <div>
       <HeaderAdmin />
@@ -111,20 +118,20 @@ const EditarAula = () => {
                     boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)',
                     backgroundColor: '#ffffff',
                   }}
-                >
+                  >
                   <TextField
                     margin="normal"
                     required
                     fullWidth
                     id="titulo"
                     label="Título da Aula"
-                    name="titulo"
-                    value={formData.titulo}
+                    
+                    value={formData.id}
                     onChange={handleChange}
                     autoComplete="titulo"
                     autoFocus
                     sx={{ backgroundColor: '#f9f9f9', borderRadius: '8px' }}
-                  />
+                    />
                   <TextField
                     margin="normal"
                     required
@@ -137,10 +144,10 @@ const EditarAula = () => {
                     onChange={handleChange}
                     InputLabelProps={{ shrink: true }}
                     sx={{ backgroundColor: '#f9f9f9', borderRadius: '8px' }}
-                  />
-                  {formData.exercicios.map((exercicio, index) => (
+                    />
+                  {exercicios.map((exercicio, index) => (              
                     <Box
-                      key={index}
+                    key={index}
                       sx={{
                         marginBottom: 4,
                         border: '1px solid #ddd',
@@ -158,12 +165,13 @@ const EditarAula = () => {
                         id={`enunciado-${index}`}
                         label="Enunciado do Exercício"
                         name="enunciado"
-                        value={exercicio.enunciado}
+                        value={exercicio[1]}
                         onChange={(e) => handleExercicioChange(index, e)}
                         sx={{ backgroundColor: '#ffffff', borderRadius: '8px' }}
                       />
                       <Grid container spacing={2} sx={{ marginTop: 2 }}>
-                        {exercicio.respostas.map((resposta, respostaIndex) => (
+
+                        {exercicio[2].map((resposta, respostaIndex) => (
                           <Grid item xs={12} sm={6} key={respostaIndex}>
                             <TextField
                               margin="normal"
@@ -178,9 +186,9 @@ const EditarAula = () => {
                             <FormControlLabel
                               control={
                                 <Checkbox
-                                  checked={exercicio.respostasCorretas[respostaIndex]}
-                                  onChange={(e) => handleExercicioChange(index, e)}
-                                  name={`correta-${respostaIndex}`}
+                                  checked={exercicio[4] === resposta}
+                                  onChange={() => handleExercicioChange(index, { target: { name: `correta-${resposta}`, value: resposta } })}
+                                  name={`correta-${resposta}`}
                                   sx={{ color: '#B9171C', '&.Mui-checked': { color: '#B9171C' } }}
                                 />
                               }

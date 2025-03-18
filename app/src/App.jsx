@@ -53,6 +53,7 @@ function App() {
           <Route path="/usuarios" element={<UserControl />} />
           <Route path="/usuarios/criar" element={<CadastroUsuario />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/aula/:id/editar/" element={<EditarAula />} />
           <Route path="/fazer/aula/:id" element={<FazerAula />} />
           <Route path="/fazer/exercicio/:id" element={<FazerAula />} />
           <Route path="/aula/criar" element={<CriarAula />} />

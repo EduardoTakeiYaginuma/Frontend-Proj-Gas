@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import Cookies from 'universal-cookie';
 import { 
   Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, 
-  TableRow, Button, Typography, TextField, MenuItem, Select, InputLabel, FormControl, Box 
+  TableRow, Button, Typography, TextField, MenuItem, Select, InputLabel, FormControl 
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
@@ -15,21 +15,21 @@ import './static/CasosTable.css';
 const columns = [
   { id: 'email', label: 'EMAIL', minWidth: 100, Icon: EmailIcon },
   { id: 'nome', label: 'NOME', minWidth: 100, Icon: BadgeIcon },
-  { id: 'permissao', label: 'PERMISSÃO', minWidth: 100, Icon: SupervisorAccountIcon },
+  { id: 'permissoes', label: 'PERMISSÕES', minWidth: 100, Icon: SupervisorAccountIcon },
   { id: 'delete', label: 'DELETAR', minWidth: 100 }
 ];
 
-function createData(id, email, nome, permissao) {
-  return { id, email, nome, permissao };
+function createData(id, email, nome, permissoes) {
+  return { id, email, nome, permissoes };
 }
 
-const cookies = new Cookies();
+// const cookies = new Cookies();
 
 function UserControl() {
   const [users, setUsers] = useState([
-    createData(1, 'admin@example.com', 'Admin User', 'ADMIN'),
-    createData(2, 'teacher@example.com', 'Teacher User', 'PROFESSOR'),
-    createData(3, 'agent@example.com', 'Agent User', 'AGENTE')
+    createData(1, 'admin@example.com', 'Admin User', 1),
+    createData(2, 'teacher@example.com', 'Teacher User', 1),
+    createData(3, 'agent@example.com', 'Agent User', 1)
   ]);
   const [filteredUsers, setFilteredUsers] = useState(users);
   const [searchTerm, setSearchTerm] = useState("");
@@ -46,7 +46,18 @@ function UserControl() {
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
-
+    useEffect(() => {
+        fetch(`http://127.0.0.1:8000/usuarios`)
+            .then((response) => {
+                if (!response.ok) throw new Error("Erro ao buscar aula");
+                return response.json();
+            })
+            .then((data) => {
+                if (data && data.usuarios) {
+                    setUsers(data.usuarios);
+                }})
+            .catch((error) => console.error("Erro ao buscar aula:", error));
+    }, [searchTerm, sortOption, users]);  
   const handleSortChange = (event) => {
     setSortOption(event.target.value);
   };
@@ -143,7 +154,7 @@ function UserControl() {
             count={filteredUsers.length}
             rowsPerPage={rowsPerPage}
             page={page}
-            onPageChange={(event, newPage) => setPage(newPage)}
+            onPageChange={(_, newPage) => setPage(newPage)}
             onRowsPerPageChange={(event) => {
               setRowsPerPage(parseInt(event.target.value, 10));
               setPage(0);
