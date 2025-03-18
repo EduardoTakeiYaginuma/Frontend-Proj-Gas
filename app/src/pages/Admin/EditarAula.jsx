@@ -126,7 +126,7 @@ const EditarAula = () => {
                     id="titulo"
                     label="Título da Aula"
                     
-                    value={formData.id}
+                    value={formData.titulo}
                     onChange={handleChange}
                     autoComplete="titulo"
                     autoFocus

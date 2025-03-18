@@ -11,7 +11,7 @@ import ArticleIcon from '@mui/icons-material/Article';
 import './static/ListaAulas.css';
 
 const columns = [
-  { id: 'aluno', label: 'EXERCÍCIO', minWidth: 100, Icon: ContactsIcon },
+  { id: 'titulo', label: 'EXERCÍCIO', minWidth: 100, Icon: ContactsIcon },
   { id: 'prazo', label: 'PRAZO', minWidth: 100, Icon: GroupsIcon },
   { id: 'score', label: 'SCORE', minWidth: 100, Icon: WarningIcon }, 
   { id: 'actions', label: 'ACESSAR', minWidth: 170, Icon: ArticleIcon }

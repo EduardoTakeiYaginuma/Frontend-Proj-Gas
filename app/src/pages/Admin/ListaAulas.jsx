@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import './static/CasosTable.css';
 
 const columns = [
-    { id: 'aluno', label: 'EXERCÍCIO', minWidth: 100, Icon: ContactsIcon },
+    { id: 'titulo', label: 'EXERCÍCIO', minWidth: 100, Icon: ContactsIcon },
     { id: 'prazo', label: 'PRAZO', minWidth: 100, Icon: GroupsIcon },
     { id: 'actions', label: 'EDITAR', minWidth: 170, Icon: ArticleIcon }
 ];
