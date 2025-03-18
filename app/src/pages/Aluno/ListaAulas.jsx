@@ -33,8 +33,9 @@ function CasosTable() {
         return response.json();
       })
       .then((data) => {
-          console.log(data)
-          setCasos(data)
+        if (data && data.aula)
+          setCasos(data.aula)
+          setFilteredCasos(data.aula)
       })
         .catch(error => console.error("Nao foi possivel carregar o bagulho: ", error))
   }, [searchTerm, sortOption, casos]);
@@ -49,6 +50,7 @@ function CasosTable() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
 
   const getScoreColor = (score) => {
     if (score >= 70) return '#4CAF50'; // Verde
@@ -98,7 +100,8 @@ function CasosTable() {
             </TableHead>
             <TableBody>
               {filteredCasos.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((caso) => (
-                <TableRow hover key={caso._id} style={{ transition: 'background-color 0.3s' }}>
+                console.log(caso),
+                <TableRow hover key={caso.id} style={{ transition: 'background-color 0.3s' }}>
                   {columns.map((column) => (
                     <TableCell 
                       key={column.id} 
@@ -135,13 +138,12 @@ function CasosTable() {
                             padding: '8px 20px',
                             transition: 'background-color 0.3s',
                           }}
-                          onClick={() => handleViewClick(caso._id)}
+                          onClick={() => handleViewClick(caso.id)}
                         >
                           Acessar
                         </Button>
-                      ) : (
-                        column.id === 'aluno' ? caso.aluno.nome : caso[column.id]
-                      )}
+                      ) : caso[column.id]
+                      }
                     </TableCell>
                   ))}
                 </TableRow>

@@ -14,11 +14,7 @@ const columns = [
 ];
 
 function AulasTable() {
-    const [aulas, setAulas] = useState([  // Dados fake mantidos
-        { _id: '1', aluno: { nome: 'Exercício 1' }, prazo: '20/03/2025' },
-        { _id: '2', aluno: { nome: 'Exercício 2' }, prazo: '25/03/2025' },
-        { _id: '3', aluno: { nome: 'Exercício 3' }, prazo: '30/03/2025' },
-    ]);
+    const [aulas, setAulas] = useState([]);
     const [filteredAulas, setFilteredAulas] = useState(aulas);
     const [searchTerm, setSearchTerm] = useState("");
     const [sortOption, setSortOption] = useState("");
@@ -27,17 +23,17 @@ function AulasTable() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const results = aulas.filter(aula =>
-            aula.aluno.nome.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-
-        if (sortOption === "nameAsc") {
-            results.sort((a, b) => a.aluno.nome.localeCompare(b.aluno.nome));
-        } else if (sortOption === "nameDesc") {
-            results.sort((a, b) => b.aluno.nome.localeCompare(a.aluno.nome));
-        }
-
-        setFilteredAulas(results);
+        fetch(`http://127.0.0.1:8000/homeAluno`)
+        .then((response) => {
+          if (!response.ok) throw new Error("Erro ao buscar aula");
+          return response.json();
+        })
+        .then((data) => {
+          if (data && data.aula)
+            setAulas(data.aula)
+            setFilteredAulas(data.aula)
+        })
+          .catch(error => console.error("Nao foi possivel carregar o bagulho: ", error))
     }, [searchTerm, sortOption, aulas]);
 
     return (
@@ -81,7 +77,7 @@ function AulasTable() {
                         </TableHead>
                         <TableBody>
                             {filteredAulas.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((aula) => (
-                                <TableRow hover key={aula._id} style={{ transition: 'background-color 0.3s' }}>
+                                <TableRow hover key={aula.id} style={{ transition: 'background-color 0.3s' }}>
                                     {columns.map((column) => (
                                         <TableCell 
                                         key={column.id} 
@@ -98,12 +94,12 @@ function AulasTable() {
                                                 <Button
                                                     variant="contained"
                                                     style={{ backgroundColor: "#B9171C", color: "#fff", borderRadius: '5px', padding: '8px 20px', transition: 'background-color 0.3s' }}
-                                                    onClick={() => navigate(`/aula/editar/${aula._id}`)}
+                                                    onClick={() => navigate(`/aula/editar/${aula.id}`)}
                                                 >
                                                     Editar
                                                 </Button>
                                             ) : (
-                                                column.id === 'aluno' ? aula.aluno.nome : aula[column.id]
+                                                aula[column.id]
                                             )}
                                         </TableCell>
                                     ))}
