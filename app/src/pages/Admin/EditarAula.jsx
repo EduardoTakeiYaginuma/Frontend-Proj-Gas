@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Typography, Container, Box, Grid, Checkbox, FormControlLabel } from '@mui/material';
 import { Link, useParams } from 'react-router-dom';
 import Cookies from 'universal-cookie';
@@ -84,13 +85,13 @@ const EditarAula = () => {
       });
       
       if (!response.ok) throw new Error('Erro na atualização da aula');
-      alert('Aula atualizada com sucesso');
     } catch (error) {
       console.error('Erro:', error);
-      alert('Erro ao atualizar a aula');
     }
   };
   
+  const navigate = useNavigate();
+
   return (
     <div>
       <HeaderAdmin />
@@ -109,7 +110,10 @@ const EditarAula = () => {
                 </Typography>
                 <Box
                   component="form"
-                  onSubmit={handleSubmit}
+                  onSubmit={(e) => {
+                    handleSubmit(e);
+                    navigate('/homeAdmin');
+                  }}
                   sx={{
                     mt: 3,
                     width: '100%',
@@ -125,7 +129,7 @@ const EditarAula = () => {
                     fullWidth
                     id="titulo"
                     label="Título da Aula"
-                    
+                    name="titulo"
                     value={formData.titulo}
                     onChange={handleChange}
                     autoComplete="titulo"
@@ -200,7 +204,6 @@ const EditarAula = () => {
                       </Grid>
                     </Box>
                   ))}
-                  <Link to = "/" style={{ textDecoration: 'none', color: '#B9171C' }}>
                   <Button
                     type="submit"
                     fullWidth
@@ -217,7 +220,6 @@ const EditarAula = () => {
                   >
                     Salvar mudanças
                   </Button>
-                  </Link>
                 </Box>
               </Box>
             </Container>
