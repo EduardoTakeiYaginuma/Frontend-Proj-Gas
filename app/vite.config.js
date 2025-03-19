@@ -2,7 +2,6 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 
-Copy
 export default {
   server: {
     proxy: {

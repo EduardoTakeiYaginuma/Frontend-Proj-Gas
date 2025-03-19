@@ -1,48 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container, Typography, Grid, Paper } from '@mui/material';
 import { PieChart, Pie, Tooltip, Cell, Legend } from 'recharts';
 import { BarChart } from '@mui/x-charts/BarChart';
 import HeaderAdmin from './HeaderAdmin';
-import Cookies from 'universal-cookie';
 import './static/Dashboard.css';
-import { useEffect, useState } from 'react';
 
 export default function Dashboard() {
-    const [dashboardData, setDashboardData] = useState({
-        media_notas_por_aula: [],
-        distribuicao_notas: [],
-        desempenho_alunos: [],
+    const [dashboardData] = useState({
+        media_notas_por_aula: [
+            { aula_id: 1, media_notas: 7.5 },
+            { aula_id: 2, media_notas: 8.2 },
+            { aula_id: 3, media_notas: 6.9 },
+            { aula_id: 4, media_notas: 7.8 },
+        ],
+        distribuicao_notas: [
+            { nota: 'A', quantidade_alunos: 10 },
+            { nota: 'B', quantidade_alunos: 15 },
+            { nota: 'C', quantidade_alunos: 8 },
+            { nota: 'D', quantidade_alunos: 5 },
+        ],
+        desempenho_alunos: [
+            { aluno_id: 1, media_notas: 8.5 },
+            { aluno_id: 2, media_notas: 7.2 },
+            { aluno_id: 3, media_notas: 9.1 },
+            { aluno_id: 4, media_notas: 6.8 },
+        ],
     });
-    const [error, setError] = useState(null);
-    const cookies = new Cookies();
-    const token = cookies.get('token');
-
-    useEffect(() => {
-        fetch('http://127.0.0.1:8000/dashboard', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-            },
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Failed to fetch dashboard data');
-                }
-                return response.json();
-            })
-            .then((data) => {
-                setDashboardData(data);
-            })
-            .catch((error) => {
-                setError(error.message);
-            });
-    }, [token]);
 
     const COLORS = ['#007bff', '#FBD542', '#008000', '#05263E'];
 
     return (
-        console.log(dashboardData),
         <div style={{ backgroundColor: '#FAF7F7', minHeight: '100vh' }}>
             <HeaderAdmin />
             <Container style={{ padding: '2%', maxWidth: '90%', margin: 'auto' }}>

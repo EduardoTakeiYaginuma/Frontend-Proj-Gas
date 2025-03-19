@@ -56,7 +56,7 @@ export default function Login() {
         <Grid container spacing={2} className="login-container">
           <Grid item xs={5} style={{ textAlign: 'center' }}>
             <img src={logo} alt="Logo" style={{ width: 350, height: 150 }} />
-            <Typography variant="h6" style={{ textAlign: 'justify', padding: '0 10%', marginTop: '20px' }}>
+            <Typography variant="h6" style={{ textAlign: 'center', padding: '0 10%', marginTop: '20px' }}>
               O Grupo de Ação Social é uma entidade estudantil com foco em desenvolver, apoiar e executar projetos de âmbito social.
             </Typography>
           </Grid>
