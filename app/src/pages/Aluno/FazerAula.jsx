@@ -75,9 +75,9 @@ function FazerAula() {
 
         if (alternativaEscolhida) {
             if (alternativaEscolhida == respostaCorreta) {
-                setRespostaCorreta("Resposta correta! " + explicacao);
+                setRespostaCorreta("Resposta correta! " );
             } else {
-                setRespostaCorreta("Resposta errada. " + explicacao);
+                setRespostaCorreta("Resposta errada. " );
             }
         } else {
             setRespostaCorreta("Nenhuma alternativa selecionada.");
