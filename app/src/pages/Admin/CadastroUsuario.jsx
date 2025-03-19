@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Button, MenuItem, Typography, Container, Box, Grid } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import HeaderAdmin from './HeaderAdmin';
 import { Link } from 'react-router-dom';
 import Cookies from 'universal-cookie';
@@ -81,7 +82,7 @@ const RegisterForm = () => {
       alert('Erro ao realizar cadastro');
     }
   };
-
+  const navigate = useNavigate();
   return (
     <div>
       <HeaderAdmin />
@@ -107,7 +108,10 @@ const RegisterForm = () => {
                 </Typography>
                 <Box
                   component="form"
-                  onSubmit={handleSubmit}
+                  onSubmit={(e) => {
+                    handleSubmit(e);
+                    navigate('/');
+                  }}
                   sx={{
                     mt: 3,
                     width: '100%',

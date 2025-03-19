@@ -1,3 +1,4 @@
+import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Checkbox from '@mui/material/Checkbox';
@@ -10,6 +11,8 @@ import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
 import SendIcon from '@mui/icons-material/Send';
 import HelpIcon from '@mui/icons-material/Help'; // Ícone de dica
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'; // Ícone de voltar
+import { Link } from 'react-router-dom';
 
 function FazerAula() {
     const [alternativas, setAlternativas] = useState([]); // Armazena as alternativas
@@ -106,9 +109,16 @@ function FazerAula() {
     };
 
     return (
+        <div >
+                        <Link to="/homeAluno" style={{ textDecoration: 'none', color: '#B9171C' , }}>
+                <ArrowBackIcon className="back-arrow" style={{ fontSize: '2rem', }} />
+            </Link>
+           
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100vw', height: '100vh', backgroundColor: '#f0f2f5' }}>
+        
             <Card sx={{ width: '90%', maxWidth: '800px', borderRadius: '15px', boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)', overflow: 'hidden' }}>
                 {/* Cabeçalho */}
+                
                 <div style={{ width: '100%', backgroundColor: '#B9171C', padding: '20px', textAlign: 'center' }}>
                     <Typography
                         variant="h4"
@@ -301,6 +311,7 @@ function FazerAula() {
                     </div>
                 </CardContent>
             </Card>
+        </div>
         </div>
     );
 }
