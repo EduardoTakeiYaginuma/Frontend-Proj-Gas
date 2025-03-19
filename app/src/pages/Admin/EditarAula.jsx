@@ -57,6 +57,8 @@ const EditarAula = () => {
     const updatedExercicios = [...exercicios];
     if (name === 'enunciado') {
       updatedExercicios[index][1] = value;
+    } else if (name==='explicaçao'){
+      updatedExercicios[index][3] = value;  
     } else if (name.startsWith('resposta')) {
       const respostaIndex = parseInt(name.split('-')[1]);
       updatedExercicios[index][2][respostaIndex] = value;
@@ -173,6 +175,16 @@ const EditarAula = () => {
                         onChange={(e) => handleExercicioChange(index, e)}
                         sx={{ backgroundColor: '#ffffff', borderRadius: '8px' }}
                       />
+                        <TextField
+                          margin="normal"
+                          fullWidth
+                          id={`enunciado-${index}`}
+                          label="Explicação do Exercício"
+                          name="explicaçao"
+                          value={exercicio[3]}
+                          onChange={(e) => handleExercicioChange(index, e)}
+                          sx={{ backgroundColor: '#ffffff', borderRadius: '8px' }}
+                        />                           
                       <Grid container spacing={2} sx={{ marginTop: 2 }}>
 
                         {exercicio[2].map((resposta, respostaIndex) => (

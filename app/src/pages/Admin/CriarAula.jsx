@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Typography, Container, Box, Grid, Checkbox, FormControlLabel } from '@mui/material';
 import HeaderAdmin from './HeaderAdmin';
 import { Link } from 'react-router-dom';
@@ -47,6 +48,8 @@ const CriarAula = () => {
     const updatedExercicios = [...formData.exercicios];
     if (name === 'enunciado') {
       updatedExercicios[index].enunciado = value;
+    } else if (name === 'explicaçao') {
+      updatedExercicios[index].explicaçao = value;
     } else if (name.startsWith('resposta')) {
       const respostaIndex = parseInt(name.split('-')[1]);
       updatedExercicios[index].respostas[respostaIndex] = value;
@@ -86,7 +89,6 @@ const CriarAula = () => {
 
       const data = await response.json();
       console.log('Aula cadastrada com sucesso:', data);
-      alert('Aula cadastrada com sucesso');
 
       // Reseta o formulário
       setFormData({
@@ -96,10 +98,9 @@ const CriarAula = () => {
       });
     } catch (error) {
       console.error('Erro:', error);
-      alert('Erro ao cadastrar aula');
     }
   };
-
+  const navigate = useNavigate();
   return (
     <div>
       <HeaderAdmin />
@@ -125,7 +126,10 @@ const CriarAula = () => {
                 </Typography>
                 <Box
                   component="form"
-                  onSubmit={handleSubmit}
+                  onSubmit={(e) => {
+                    handleSubmit(e);
+                    navigate('/homeAdmin');
+                  }}
                   sx={{
                     mt: 3,
                     width: '100%',
@@ -185,6 +189,16 @@ const CriarAula = () => {
                         onChange={(e) => handleExercicioChange(index, e)}
                         sx={{ backgroundColor: '#ffffff', borderRadius: '8px' }}
                       />
+                      <TextField
+                        margin="normal"
+                        fullWidth
+                        id={`enunciado-${index}`}
+                        label="Explicação do Exercício"
+                        name="explicaçao"
+                        value={exercicio.explicacao}
+                        onChange={(e) => handleExercicioChange(index, e)}
+                        sx={{ backgroundColor: '#ffffff', borderRadius: '8px' }}
+                      />
                       <Grid container spacing={2} sx={{ marginTop: 2 }}>
                         {exercicio.respostas.map((resposta, respostaIndex) => (
                           <Grid item xs={12} sm={6} key={respostaIndex}>
@@ -227,7 +241,6 @@ const CriarAula = () => {
                   >
                     Adicionar Exercício
                   </Button>
-                  <Link to= "/" style={{ textDecoration: 'none', color: '#B9171C' }}>
                   <Button
                     type="submit"
                     fullWidth
@@ -244,7 +257,6 @@ const CriarAula = () => {
                   >
                     Cadastrar Aula
                   </Button>
-                  </Link>
                 </Box>
               </Box>
             </Container>
